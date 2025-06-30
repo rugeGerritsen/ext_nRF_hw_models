@@ -36,7 +36,6 @@
  *
  * 7. XOTUNE does nothing more than generate the XOTUNED/XOTUNEFAILED event. It will only fail
  *    if set to do so with the nhw_clock_cheat_set_xotune_fail() interface.
- *    The event XOTUNEERROR is never generated.
  *
  * 8. The models do not check the requirement of having the HFXO clock running to be
  *    able to run the RADIO. The RADIO models will run just fine without it.
@@ -475,6 +474,14 @@ void nhw_clock_cheat_set_xotune_time(uint inst, bs_time_t success_time, bs_time_
 void nhw_clock_cheat_set_xotune_fail(uint inst, uint fail_count) {
   (void)inst;
   nhw_clkpwr_st.XOtuning_pending_fails = fail_count;
+}
+
+void nhw_clock_cheat_trigger_xotune_error(uint inst)
+{
+  if (nhw_clkpwr_st.XO_state != Started) {
+    bs_trace_warning_line("TUNEERROR event can only be generated when running");
+  }
+  nhw_CLOCK_signal_EVENTS_XOTUNEERROR(0);
 }
 
 void nhw_clock_cheat_set_calibrate_time(uint inst, bs_time_t time) {
