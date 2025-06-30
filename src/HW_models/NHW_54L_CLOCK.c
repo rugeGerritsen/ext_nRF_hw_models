@@ -34,9 +34,9 @@
  *    after the operation is completed or they are cleared.
  *    The model just leaves them at 1, unless the STOP task is triggered.
  *
- * 7. XOTUNE does nothing more than generate the XOTUNED/XOERROR event. It will only fail
+ * 7. XOTUNE does nothing more than generate the XOTUNED/XOTUNEFAILED event. It will only fail
  *    if set to do so with the nhw_clock_cheat_set_xotune_fail() interface.
- *    The event XOTUNEFAILED is never generated.
+ *    The event XOTUNEERROR is never generated.
  *
  * 8. The models do not check the requirement of having the HFXO clock running to be
  *    able to run the RADIO. The RADIO models will run just fine without it.
@@ -428,7 +428,7 @@ static void nhw_CLOCK_XOTUNEtimer_triggered(void) {
   nhw_CLOCK_update_master_timer();
 
   if (failed) {
-    nhw_CLOCK_signal_EVENTS_XOTUNEERROR(0);
+    nhw_CLOCK_signal_EVENTS_XOTUNEFAILED(0);
   } else {
     nhw_CLOCK_signal_EVENTS_XOTUNED(0);
   }
