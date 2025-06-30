@@ -100,7 +100,7 @@ static void nhw_CLOCK_update_master_timer(void) {
 
   Timer_PWRCLK = TIME_NEVER;
 
-  bs_time_t t1 = BS_MIN(nhw_clkpwr_st.Timer_XO, nhw_clkpwr_st.Timer_PLL);
+  bs_time_t t1 = BS_MIN(BS_MIN(nhw_clkpwr_st.Timer_XO, nhw_clkpwr_st.Timer_PLL), nhw_clkpwr_st.Timer_XOTUNE);
   bs_time_t t2 = BS_MIN(nhw_clkpwr_st.Timer_LFCLK, nhw_clkpwr_st.Timer_CAL);
 
   bs_time_t el_min = BS_MIN(t1, t2);
